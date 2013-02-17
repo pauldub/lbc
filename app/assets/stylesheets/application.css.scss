@@ -1,0 +1,115 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require formtastic
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+@import 'bootstrap';
+
+/*
+ *= require formtastic-bootstrap
+ */
+
+@import 'bourbon';
+@import 'neat';
+
+h1 {
+  font-family: $helvetica;
+  font-size: golden-ratio(24px,  1);
+}
+
+a ,
+a:hover ,
+a:visited {
+  text-decoration: none;
+}
+
+div.container {
+  @include outer-container;
+
+  #sidebar {
+    @include span-columns(3);
+
+    ul {
+      list-style-type: none;
+      
+      li {
+        margin: 5px 0;
+      }
+
+      .btn {
+        display: block;
+        text-align: center;
+      }
+    }
+  }
+
+  #content {
+    @include span-columns(9);
+  }
+}
+
+div.search {
+  @include span-columns(12);
+
+  .title {
+    @include span-columns(12);
+  }
+
+  .parameters {
+    @include span-columns(12);
+
+    div {
+      @include span-columns(4);
+      @include omega(3n);
+    }
+
+    margin-bottom: 10px;
+  }
+
+  .insights {
+    @include span-columns(12);
+
+    .price {
+      @include span-columns(6);
+    }
+
+    .surface {
+      @include span-columns(6);
+    }
+
+    margin-bottom: 10px;
+  }
+
+  .actions {
+    @include span-columns(12);
+
+
+    > div {
+      @include span-columns(6);
+      @include omega(2n);
+    }
+  }
+
+  .results {
+    @include span-columns(12);
+  }
+}
+
+.result {
+  .description {
+    .long {
+      display: none;
+    }
+  }
+}

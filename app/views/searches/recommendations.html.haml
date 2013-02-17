@@ -1,0 +1,7 @@
+%h3 Recommendations
+
+- @similar_raters.each do |rater|
+  = debug rater
+
+- if @recommendations.any?
+  = render :partial => 'results', locals: { results: @recommendations }

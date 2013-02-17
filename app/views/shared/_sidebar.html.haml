@@ -1,0 +1,23 @@
+%ul
+  %li
+    %h1
+      = link_to "LBC", root_url
+  - if logged_in?
+    %li
+      = link_to "New Search", new_search_path, class: 'btn btn-primary'
+    %li
+      = link_to "Search List", searches_path, class: 'btn'
+    %li
+      = link_to "Bookmarks", bookmarks_searches_path, class: 'btn'
+    %li
+      = link_to "Likes", likes_searches_path, class: 'btn'
+    %li
+      = link_to "Recommendations", recommendations_searches_path, class: 'btn'
+    %li
+      = link_to "Logout", logout_path, class: 'btn'
+  - else
+    %li
+      = link_to "Login", login_path, class: 'btn btn-primary'
+    %li
+      = link_to "Signup", signup_path, class: 'btn'
+

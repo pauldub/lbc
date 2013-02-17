@@ -1,0 +1,71 @@
+- @searches.each do |search|
+  .search{id: dom_id(search)}
+    .title
+      %h2= search.name
+    .parameters
+      .rent
+        Rent: 
+        = best_in_place search, :rent_min, html_attrs: { class: 'span1' }, path: search, type: :input 
+        \- 
+        = best_in_place search, :rent_max, html_attrs: { class: 'span1' }, path: search, type: :input
+      .area
+        Area: 
+        = best_in_place search, :area_min, html_attrs: { class: 'span1' }, path: search, type: :input 
+        \- 
+        = best_in_place search, :area_max, html_attrs: { class: 'span1' }, path: search, type: :input
+      .rooms
+        Rooms: 
+        = best_in_place search, :rooms_min, html_attrs: { class: 'span1' }, path: search, type: :input
+        \- 
+        = best_in_place search, :rooms_max, html_attrs: { class: 'span1' }, path: search, type: :input
+      .misc
+        Misc: 
+        = search.bip_misc
+      .location
+        Location: 
+        = best_in_place search, :location, html_attrs: { class: 'span2' }, path: search, type: :input
+    %hr
+    - if search.links.any? and search.links.first.details
+      .insights
+        .price
+          Average Price: #{number_to_currency search.average_price}
+          %br
+          Max Price: #{number_to_currency search.max_price}
+          %br
+          Min Price: #{number_to_currency search.min_price}
+        .surface
+          Average Surface: #{search.average_surface.round(2)}
+          %br
+          Max Surface: #{search.max_surface}
+          %br
+          Min Surface: #{search.min_surface}
+      %hr
+    .actions
+      .schedule
+        %h3 Schedule
+        Interval:
+        = best_in_place search, :schedule, html_attrs: { class: 'bip' }, path: search, type: :select
+        - if search.scheduled?
+          %br
+          Next run in 
+          = distance_of_time_in_words_to_now search.scheduled_at
+        - unless search.last_run.nil?
+          %br
+          Last run: 
+          = l(search.last_run, format: :default)
+        - if can? :manage, search
+          %p
+            = link_to "Run", run_search_path(search)
+            = link_to "Edit", edit_search_path(search)
+      .sharing
+        %h3 Sharing
+        Shared with #{search.users.collect(&:username).join(', ')}.
+        - if can? :share, search
+          = semantic_form_for User.new, url: share_search_url(search), method: :put do |f|
+            = f.inputs :email
+            %br
+            = f.actions do
+              = f.action :submit
+      .misc
+        = link_to "Browse Results", results_search_path(search), class: 'btn btn-primary'
+        = link_to "View Statistics", statistics_search_path(search), class: 'btn'

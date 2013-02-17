@@ -1,0 +1,17 @@
+- @searches.each do |search|
+  .search{id: dom_id(search)}
+    %h2= search.name
+    %p
+      Rent: #{search.rent_min} - #{search.rent_max}
+      Area: #{search.area_min} - #{search.area_max}
+      Rooms: #{search.rooms_min} - #{search.rooms_max}
+      Misc: #{search.misc.to_a * ', '}
+      Location: #{search.location}
+    %p
+      Schedule: #{search.schedule}
+      - unless search.last_run.nil?
+        Last run: #{l search.last_run, format: :medium}
+    = debug search
+    %p
+      = link_to "Run", run_user_search_path(current_user, search)
+      = link_to "Edit", edit_user_search_path(current_user, search)

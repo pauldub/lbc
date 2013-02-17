@@ -1,0 +1,52 @@
+= paginate results
+
+- results.each do |link|
+  .result{id: dom_id(link)}
+    .title
+      %h4 #{link.title} / #{link.ad_id}
+    - unless link.details.nil?
+      .details
+        %p
+          Price: #{link.details.price_string}
+          Surface: #{link.details.surface}
+          City: #{link.details.city}
+          ZipCode: #{link.details.zipcode}
+          Furnitures: #{link.details.furnitures}
+          Energy Class: #{link.details.energy_class}
+          GES: #{link.details.ges}
+    .insights
+      %p
+        Likes: 
+        %span.js-likes= link.liked_by_count
+        Dislikes: 
+        %span.js-dislikes= link.disliked_by_count
+    .actions
+      %p
+        = link_to "Visit", link.url, class: 'original-url'
+        \-
+        %span.js-like{class: current_user.likes?(link) ? 'hide' : '' }
+          = link_to "Like", like_search_link_path(link.search, link), class: 'like js-like', remote: true
+          \-
+        %span.js-dislike{class: current_user.dislikes?(link) ? 'hide' : '' }
+          = link_to "Dislike", dislike_search_link_path(link.search, link), class: 'dislike js-dislike', remote: true
+          \-
+        %span.js-bookmark{class: current_user.bookmarks?(link) ? 'hide' : '' }
+          = link_to "Bookmark", bookmark_search_link_path(link.search, link), class: 'bookmark js-bookmark', remote: true
+          \-
+        %span.js-remove-bookmark{class: current_user.bookmarks?(link) ? '' : 'hide' }
+          = link_to "Remove from bookmarks", remove_bookmark_search_link_path(link.search, link), class: 'remove-bookmark js-remove-bookmark', remote: true
+          \-
+        %span.js-hide{class: current_user.hides?(link) ? 'hide' : '' }
+          = link_to "Hide", hide_search_link_path(link.search, link), class: 'js-hide', remote: true
+        \-
+        - if can? :manage, link
+          = link_to "Fetch", fetch_search_link_path(link.search, link), class: 'fetch js-fetch', remote: true
+    .description
+      .short
+        %p= link.details.description[0..500]
+      .long
+        %p= link.details.description
+
+= paginate results
+
+:javascript
